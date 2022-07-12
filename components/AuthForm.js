@@ -67,6 +67,9 @@ const AuthForm = () => {
             .then(res => {
                 auth.login(res.token, res.userId);
             })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     return (

@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import storage from '../data/Storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const KEY = 'chat-app-user-details';
 
@@ -8,26 +8,31 @@ export const useAuth = () => {
     const [userId, setUserId] = useState();
     const [checked, setChecked] = useState(false);
 
-    const login = useCallback((token, userId) => {
+    const login = useCallback(async (token, userId) => {
         setToken(token);
         setUserId(userId);
 
-        storage.save({
-            key: KEY,
-            data: {
-                token: token,
-                userId: userId
-            }
-        });
+        await AsyncStorage.setItem(KEY, JSON.stringify({
+            userId: userId,
+            token: token
+        }));
+    }, []);
+
+    const logout = useCallback(async () => {
+        setToken(null);
+        setUserId(null);
+
+        await AsyncStorage.removeItem(KEY);
     }, []);
 
     useEffect(() => {
-        storage
-            .load({
-                key: KEY,
-                autoSync: false
-            })
-            .then(data => {
+        AsyncStorage.getItem(KEY)
+            .then(res => {
+                if (!res)
+                    return;
+
+                const data = JSON.parse(res);
+
                 login(data.token, data.userId)
             })
             .finally(() => {
@@ -35,5 +40,5 @@ export const useAuth = () => {
             })
     }, [login]);
 
-    return { token, userId, checked, login };
+    return { token, userId, checked, login, logout };
 };

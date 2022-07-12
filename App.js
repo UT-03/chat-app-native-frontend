@@ -6,10 +6,12 @@ import Navigator from './Navigator';
 import { StatusBar } from 'expo-status-bar';
 import { useAuth } from './hooks/AuthHook';
 import { AuthContext } from './context/AuthContext';
+import { FAB } from "@rneui/themed";
+import GlobalStyles from './Constants/style/GlobalStyles';
 
 const App = () => {
 
-  const { token, checked, userId, login } = useAuth();
+  const { token, checked, userId, login, logout } = useAuth();
 
   return (
     <>
@@ -19,9 +21,20 @@ const App = () => {
             isLoggedIn: !!token,
             token: token,
             login: login,
+            logout: logout,
             userId: userId
           }}
         >
+          <FAB
+            visible={true}
+            icon={{ name: 'chat', color: 'white' }}
+            color={GlobalStyles.colors.primary500}
+            placement='right'
+            onPress={() => {
+              console.log('FAB pressed')
+              navigation.navigate('chatScreen')
+            }}
+          />
           <StatusBar style="light" />
           <Provider>
             <NavigationContainer>

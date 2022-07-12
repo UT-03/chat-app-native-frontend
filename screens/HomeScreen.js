@@ -1,6 +1,8 @@
 import { FlatList, StyleSheet, View } from 'react-native';
 import ChatMessageItem from '../components/ChatMessageItem';
 import GlobalStyles from '../Constants/style/GlobalStyles';
+import { FAB } from "@rneui/themed";
+import { Portal } from 'react-native-paper';
 
 const DUMMY_CHATS = [
     {
@@ -49,9 +51,21 @@ const DUMMY_CHATS = [
         numberOfNewMessages: 1
     }
 ]
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.rootContainer}>
+            <Portal>
+                <FAB
+                    visible={true}
+                    icon={{ name: 'chat', color: 'white' }}
+                    color={GlobalStyles.colors.primary500}
+                    placement='right'
+                    onPress={() => {
+                        console.log('FAB pressed')
+                        navigation.navigate('chatScreen')
+                    }}
+                />
+            </Portal>
             <FlatList
                 data={DUMMY_CHATS}
                 renderItem={(itemData) => (
