@@ -1,20 +1,40 @@
+import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { Provider } from 'react-native-paper';
+
+import Navigator from './Navigator';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useAuth } from './hooks/AuthHook';
+import { AuthContext } from './context/AuthContext';
 
-export default function App() {
+const App = () => {
+
+  const { token, checked, userId, login } = useAuth();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      {checked ? (
+        <AuthContext.Provider
+          value={{
+            isLoggedIn: !!token,
+            token: token,
+            login: login,
+            userId: userId
+          }}
+        >
+          <StatusBar style="light" />
+          <Provider>
+            <NavigationContainer>
+              <Navigator />
+            </NavigationContainer>
+          </Provider>
+        </AuthContext.Provider>
+      ) : (
+        <ActivityIndicator
+          size='large' />
+      )}
+    </>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
