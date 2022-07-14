@@ -1,11 +1,15 @@
 import { StyleSheet, View } from 'react-native';
 import AuthForm from '../components/AuthForm';
+import { StatusBar } from 'expo-status-bar';
 
 const AuthScreen = () => {
     return (
-        <View style={styles.rootContainer}>
-            <AuthForm />
-        </View>
+        <>
+            <StatusBar style="dark" />
+            <View style={styles.rootContainer}>
+                <AuthForm />
+            </View>
+        </>
     );
 };
 

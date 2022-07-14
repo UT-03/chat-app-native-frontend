@@ -31,14 +31,14 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 16,
-        color: GlobalStyles.colors.primary200,
+        color: GlobalStyles.colors.primary700,
         marginBottom: 4,
     },
     input: {
         backgroundColor: 'white',
         borderWidth: 1,
-        borderColor: GlobalStyles.colors.primary200,
-        color: GlobalStyles.colors.primary700,
+        borderColor: GlobalStyles.colors.primary700,
+        color: GlobalStyles.colors.primary900,
         padding: 6,
         borderRadius: 6,
         fontSize: 18,

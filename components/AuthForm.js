@@ -81,6 +81,9 @@ const AuthForm = () => {
                         color={GlobalStyles.colors.primary500} />
                 ) : (
                     <>
+                        <View style={styles.headingContainer}>
+                            <Text style={styles.heading}>Login required</Text>
+                        </View>
                         <View>
                             {!isLoginMode && (
                                 <Input
@@ -120,7 +123,7 @@ const AuthForm = () => {
                             )}
 
                             <Button
-                                color={GlobalStyles.colors.primary400}
+                                color={GlobalStyles.colors.primary700}
                                 textColor='white'
                                 title={isLoginMode ? 'Login' : 'Signup'}
                                 onPress={submitHandler} />
@@ -149,6 +152,14 @@ const AuthForm = () => {
 export default AuthForm;
 
 const styles = StyleSheet.create({
+    headingContainer: {
+
+    },
+    heading: {
+        color: GlobalStyles.colors.primary700,
+        textAlign: 'center',
+        fontSize: 24
+    },
     textHighlightContainer: {
         textAlign: 'center',
         marginTop: 6

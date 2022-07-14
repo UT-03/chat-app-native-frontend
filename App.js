@@ -1,17 +1,22 @@
-import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-native-paper';
+import { useNetInfo } from '@react-native-community/netinfo';
+import { View, Text } from 'react-native';
 
 import Navigator from './Navigator';
-import { StatusBar } from 'expo-status-bar';
 import { useAuth } from './hooks/AuthHook';
 import { AuthContext } from './context/AuthContext';
-import { FAB } from "@rneui/themed";
-import GlobalStyles from './Constants/style/GlobalStyles';
+import { useContacts } from './hooks/ContactsHook';
+import { ContactsContext } from './context/ContactsContext';
 
 const App = () => {
 
   const { token, checked, userId, login, logout } = useAuth();
+
+  const { contacts, getContacts, areContactsReady } = useContacts(token);
+
+  const netInfo = useNetInfo();
 
   return (
     <>
@@ -25,22 +30,24 @@ const App = () => {
             userId: userId
           }}
         >
-          <FAB
-            visible={true}
-            icon={{ name: 'chat', color: 'white' }}
-            color={GlobalStyles.colors.primary500}
-            placement='right'
-            onPress={() => {
-              console.log('FAB pressed')
-              navigation.navigate('chatScreen')
-            }}
-          />
-          <StatusBar style="light" />
-          <Provider>
-            <NavigationContainer>
-              <Navigator />
-            </NavigationContainer>
-          </Provider>
+          <ContactsContext.Provider
+            value={{
+              contacts: contacts,
+              getContacts: getContacts,
+              areContactsReady: areContactsReady
+            }}>
+            <Provider>
+              <NavigationContainer>
+                {netInfo.isConnected ?
+                  <Navigator />
+                  : (
+                    <View>
+                      <Text>No internet connection...</Text>
+                    </View>
+                  )}
+              </NavigationContainer>
+            </Provider>
+          </ContactsContext.Provider>
         </AuthContext.Provider>
       ) : (
         <ActivityIndicator

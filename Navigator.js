@@ -1,11 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useContext, useEffect } from 'react';
-import Button from './components/Button';
+import { useContext } from 'react';
+import HomeScreenHeader from './components/HomeScreenHeader';
 import GlobalStyles from './Constants/style/GlobalStyles';
 import { AuthContext } from './context/AuthContext';
 
 import AuthScreen from './screens/AuthScreen';
 import ChatScreen from './screens/ChatScreen';
+import ContactsScreen from './screens/ContactsScreen';
 import HomeScreen from './screens/HomeScreen';
 
 const Stack = createNativeStackNavigator();
@@ -15,7 +16,6 @@ const Navigator = () => {
 
     return (
         <Stack.Navigator
-            // initialRouteName={auth.isLoggedIn ? 'home' : 'auth'}
             screenOptions={{
                 headerStyle: {
                     backgroundColor: GlobalStyles.colors.primary500
@@ -30,15 +30,9 @@ const Navigator = () => {
                         component={HomeScreen}
                         options={{
                             title: "Chat App",
-                            headerRight: () => {
-                                return (
-                                    <Button
-                                        title="Logout"
-                                        color="transparent"
-                                        textColor="white"
-                                        onPress={auth.logout} />
-                                )
-                            }
+                            headerRight: () => (
+                                <HomeScreenHeader />
+                            )
                         }} />
                     <Stack.Screen
                         name="chatScreen"
@@ -46,6 +40,13 @@ const Navigator = () => {
                         options={{
                             headerTitle: '',
                             headerBackVisible: true
+                        }} />
+                    <Stack.Screen
+                        name="contactsScreen"
+                        component={ContactsScreen}
+                        options={{
+                            headerTitle: 'Your Contacts',
+                            headerBackVisible: true,
                         }} />
                 </>
             ) : (

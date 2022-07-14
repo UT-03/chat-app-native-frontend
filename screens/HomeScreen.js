@@ -3,6 +3,7 @@ import ChatMessageItem from '../components/ChatMessageItem';
 import GlobalStyles from '../Constants/style/GlobalStyles';
 import { FAB } from "@rneui/themed";
 import { Portal } from 'react-native-paper';
+import { StatusBar } from 'expo-status-bar';
 
 const DUMMY_CHATS = [
     {
@@ -52,31 +53,23 @@ const DUMMY_CHATS = [
     }
 ]
 const HomeScreen = ({ navigation }) => {
+    console.log('home')
     return (
-        <View style={styles.rootContainer}>
-            <Portal>
-                <FAB
-                    visible={true}
-                    icon={{ name: 'chat', color: 'white' }}
-                    color={GlobalStyles.colors.primary500}
-                    placement='right'
-                    onPress={() => {
-                        console.log('FAB pressed')
-                        navigation.navigate('chatScreen')
-                    }}
-                />
-            </Portal>
-            <FlatList
-                data={DUMMY_CHATS}
-                renderItem={(itemData) => (
-                    <ChatMessageItem
-                        chatId={itemData.item.id}
-                        userName={itemData.item.name}
-                        sent={itemData.item.recentMessage.sent}
-                        recentMessage={itemData.item.recentMessage.text} />
-                )}
-                keyExtractor={item => item.id} />
-        </View>
+        <>
+            <StatusBar style='light' />
+            <View style={styles.rootContainer}>
+                <FlatList
+                    data={DUMMY_CHATS}
+                    renderItem={(itemData) => (
+                        <ChatMessageItem
+                            chatId={itemData.item.id}
+                            userName={itemData.item.name}
+                            sent={itemData.item.recentMessage.sent}
+                            recentMessage={itemData.item.recentMessage.text} />
+                    )}
+                    keyExtractor={item => item.id} />
+            </View>
+        </>
     );
 };
 
