@@ -6,7 +6,7 @@ import ChatsContainer from '../components/ChatsContainer';
 import GlobalStyles from '../Constants/style/GlobalStyles';
 
 const ChatScreen = ({ route, navigation }) => {
-    const { chatId, userName } = route.params;
+    const { userId, userName } = route.params;
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -20,7 +20,8 @@ const ChatScreen = ({ route, navigation }) => {
 
     return (
         <View style={styles.rootContainer}>
-            <ChatsContainer />
+            <ChatsContainer
+                userId={userId} />
             <ChatInput />
         </View>
     );

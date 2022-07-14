@@ -1,56 +1,62 @@
-import { FlatList, StyleSheet, View } from 'react-native';
+import { useContext, useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
+import variables from '../Constants/envVariables';
+import { AuthContext } from '../context/AuthContext';
+import { useHttpClient } from '../hooks/HttpHook';
 import ChatMessage from './ChatMessage';
+import { Text } from 'react-native';
+import GlobalStyles from '../Constants/style/GlobalStyles';
 
-const DUMMY_MESSAGES = [
-    {
-        id: '1',
-        text: 'Hello',
-        fromSelf: true
-    },
-    {
-        id: '2',
-        text: 'Hi!',
-        fromSelf: false
-    },
-    {
-        id: '5',
-        text: 'How are you?',
-        fromSelf: true
-    },
-    {
-        id: '8',
-        text: 'How are you? This is a long message. This is very long message...',
-        fromSelf: true
-    },
-    {
-        id: '9',
-        text: 'How are you? This is a long message. This is very long message...',
-        fromSelf: true
-    },
-    {
-        id: '10',
-        text: 'How are you? This is a long message. This is very long message...',
-        fromSelf: true
-    },
-    {
-        id: '11',
-        text: 'How are you? This is a long message. This is very long message...',
-        fromSelf: true
-    },
-]
+const ChatsContainer = ({ userId }) => {
+    const [messages, setMessages] = useState([]);
 
-const ChatsContainer = () => {
+    const { isLoading, sendRequest } = useHttpClient();
+
+    const auth = useContext(AuthContext);
+
+    useEffect(() => {
+        const fetchMessages = async () => {
+            const messages$ = await sendRequest(
+                `${variables.backendHost}/user/messages/${userId}`,
+                'GET',
+                null,
+                {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + auth.token
+                }
+            )
+            setMessages(messages$.messages);
+        }
+        fetchMessages();
+    }, []);
+
     return (
-        <View style={styles.chatsContainer}>
-            <FlatList
-                data={DUMMY_MESSAGES}
-                renderItem={({ item }) => (
-                    <ChatMessage
-                        text={item.text}
-                        fromSelf={item.fromSelf} />
-                )}
-                keyExtractor={item => item.id} />
-        </View>
+        <>
+            {isLoading ? (
+                <View style={styles.rootContainer}>
+                    <ActivityIndicator size='large' color={GlobalStyles.colors.primary400} />
+                </View>
+            ) : (
+                <>
+                    {messages.length > 0 ? (
+                        <View style={styles.chatsContainer}>
+                            <FlatList
+                                data={messages}
+                                renderItem={({ item }) => (
+                                    <ChatMessage
+                                        text={item.text}
+                                        fromSelf={item.fromSelf} />
+                                )}
+                                keyExtractor={item => item.text} />
+                        </View>
+                    ) : (
+                        <View style={styles.rootContainer}>
+                            <Text>You don't have any chat with this account...</Text>
+                        </View>
+                    )}
+                </>
+            )}
+        </>
     );
 };
 
@@ -62,4 +68,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         paddingVertical: 10
     },
-})
+    rootContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+});

@@ -8,6 +8,8 @@ import ContactItem from '../components/ContactItem';
 const ContactsScreen = () => {
     const { contacts, areContactsReady } = useContext(ContactsContext);
 
+    console.log(contacts);
+
     return (
         <>
             <StatusBar style="light" />

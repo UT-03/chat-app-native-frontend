@@ -51,7 +51,8 @@ const DUMMY_CHATS = [
         },
         numberOfNewMessages: 1
     }
-]
+];
+
 const HomeScreen = ({ navigation }) => {
     console.log('home')
     return (
