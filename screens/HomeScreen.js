@@ -1,83 +1,31 @@
-import { FlatList, StyleSheet, View } from 'react-native';
-import ChatMessageItem from '../components/ChatMessageItem';
-import GlobalStyles from '../Constants/style/GlobalStyles';
-import { FAB } from "@rneui/themed";
-import { Portal } from 'react-native-paper';
+import { useContext } from 'react';
+import { ActivityIndicator } from 'react-native';
+import { ContactsContext } from '../context/ContactsContext';
 import { StatusBar } from 'expo-status-bar';
+import ContactItem from '../components/ContactItem';
 
-const DUMMY_CHATS = [
-    {
-        id: '1',
-        name: 'Rambo',
-        recentMessage: {
-            text: 'Hello!',
-            sent: false
-        },
-        numberOfNewMessages: 1
-    },
-    {
-        id: '2',
-        name: 'Bambi',
-        recentMessage: {
-            text: 'Hello!',
-            sent: false
-        },
-        numberOfNewMessages: 1
-    },
-    {
-        id: '3',
-        name: 'Chaiwala',
-        recentMessage: {
-            text: 'Hello!',
-            sent: false
-        },
-        numberOfNewMessages: 1
-    },
-    {
-        id: '4',
-        name: 'Senorita',
-        recentMessage: {
-            text: 'Hello!',
-            sent: false
-        },
-        numberOfNewMessages: 1
-    },
-    {
-        id: '6',
-        name: '<unknown>',
-        recentMessage: {
-            text: 'Hello! This is a long message. This is for testing purspose',
-            sent: true
-        },
-        numberOfNewMessages: 1
-    }
-];
+const HomeScreen = () => {
+    const { contacts, areContactsReady } = useContext(ContactsContext);
 
-const HomeScreen = ({ navigation }) => {
     return (
         <>
-            <StatusBar style='light' />
-            <View style={styles.rootContainer}>
-                <FlatList
-                    data={DUMMY_CHATS}
-                    renderItem={(itemData) => (
-                        <ChatMessageItem
-                            chatId={itemData.item.id}
-                            userName={itemData.item.name}
-                            sent={itemData.item.recentMessage.sent}
-                            recentMessage={itemData.item.recentMessage.text} />
-                    )}
-                    keyExtractor={item => item.id} />
-            </View>
+            <StatusBar style="light" />
+            {
+                areContactsReady ? (
+                    contacts.map((contact, index) => {
+                        return (
+                            <ContactItem
+                                key={contact._id}
+                                _id={contact._id}
+                                name={contact.name} />
+                        )
+                    })
+                ) : (
+                    <ActivityIndicator />
+                )
+            }
         </>
     );
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({
-    rootContainer: {
-        flex: 1,
-        backgroundColor: GlobalStyles.colors.primary100
-    }
-})

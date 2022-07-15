@@ -6,7 +6,6 @@ import { AuthContext } from './context/AuthContext';
 
 import AuthScreen from './screens/AuthScreen';
 import ChatScreen from './screens/ChatScreen';
-import ContactsScreen from './screens/ContactsScreen';
 import HomeScreen from './screens/HomeScreen';
 
 const Stack = createNativeStackNavigator();
@@ -40,13 +39,6 @@ const Navigator = () => {
                         options={{
                             headerTitle: '',
                             headerBackVisible: true
-                        }} />
-                    <Stack.Screen
-                        name="contactsScreen"
-                        component={ContactsScreen}
-                        options={{
-                            headerTitle: 'Your Contacts',
-                            headerBackVisible: true,
                         }} />
                 </>
             ) : (
