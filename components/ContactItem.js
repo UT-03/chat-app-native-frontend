@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 
 const ContactItem = ({ _id, name }) => {
     const navigation = useNavigation();
-    console.log('contactItem contact Id: ', _id);
 
     return (
         <View style={styles.chatMessageOuterContainer}>

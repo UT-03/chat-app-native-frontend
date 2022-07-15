@@ -22,7 +22,8 @@ const ChatScreen = ({ route, navigation }) => {
         <View style={styles.rootContainer}>
             <ChatsContainer
                 userId={userId} />
-            <ChatInput />
+            <ChatInput
+                userId={userId} />
         </View>
     );
 };

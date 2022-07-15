@@ -54,7 +54,6 @@ const DUMMY_CHATS = [
 ];
 
 const HomeScreen = ({ navigation }) => {
-    console.log('home')
     return (
         <>
             <StatusBar style='light' />

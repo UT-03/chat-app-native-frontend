@@ -7,7 +7,7 @@ import variables from "../Constants/envVariables";
 // const KEY = 'chat-app-contact-details';
 
 export const useContacts = (token) => {
-    const { sendRequest } = useHttpClient();
+    const { sendRequest, error } = useHttpClient();
 
     const [contacts, setContacts] = useState([]);
     const [areContactsReady, setAreContactsReady] = useState(true);
@@ -61,20 +61,22 @@ export const useContacts = (token) => {
                 return numbers;
             }, [])
 
-            // console.log(allPhoneNumbers);
+            let res;
+            try {
+                res = await sendRequest(`${variables.backendHost}/user/check-contacts`,
+                    'POST',
+                    JSON.stringify({
+                        phoneNumbers: allPhoneNumbers,
+                    }),
+                    {
+                        'Content-Type': 'application/json',
+                        Authorization: 'Bearer ' + token
+                    }
+                );
+            } catch (err) {
+                console.log(error);
+            }
 
-            // console.log(auth);
-
-            const res = await sendRequest(`${variables.backendHost}/user/check-contacts`,
-                'POST',
-                JSON.stringify({
-                    phoneNumbers: allPhoneNumbers,
-                }),
-                {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + token
-                }
-            );
 
             const projectedContacts = res.contacts.map(contact => {
                 const name = contacts$.find(cont => cont.phoneNumbers.includes(contact.phoneNumber)).name;
