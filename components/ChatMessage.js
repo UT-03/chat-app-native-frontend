@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native';
 import GlobalStyles from '../Constants/style/GlobalStyles';
 
-const ChatMessage = ({ text, fromSelf }) => {
+const ChatMessage = ({ text, fromSelf, scrollRef }) => {
     return (
         <View style={[styles.chatMessageContainer, {
             backgroundColor: fromSelf ? GlobalStyles.colors.primary500 : GlobalStyles.colors.gray600,
             alignSelf: fromSelf ? 'flex-end' : 'flex-start'
         }
-        ]}>
+        ]}
+            ref={scrollRef}>
             <Text style={styles.messageText}>{text}</Text>
         </View>
     );

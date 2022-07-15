@@ -19,7 +19,6 @@ export const useContacts = (token) => {
 
 
     const getContacts = useCallback(async () => {
-        console.log('Getting contacts')
         setAreContactsReady(false);
         const { status } = await Contacts.requestPermissionsAsync();
 
@@ -73,9 +72,7 @@ export const useContacts = (token) => {
                         Authorization: 'Bearer ' + token
                     }
                 );
-            } catch (err) {
-                console.log(error);
-            }
+            } catch (err) { }
 
 
             const projectedContacts = res.contacts.map(contact => {

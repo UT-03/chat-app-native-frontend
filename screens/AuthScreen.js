@@ -1,6 +1,7 @@
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import AuthForm from '../components/AuthForm';
 import { StatusBar } from 'expo-status-bar';
+import GlobalStyles from '../Constants/style/GlobalStyles';
 
 const AuthScreen = () => {
     return (
@@ -18,6 +19,7 @@ export default AuthScreen;
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: GlobalStyles.colors.primary100
     }
 })

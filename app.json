@@ -1,11 +1,12 @@
 {
   "expo": {
-    "name": "frontend",
+    "name": "Chat App",
     "slug": "frontend",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "backgroundColor": "#e0cffc",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -18,13 +19,16 @@
       "**/*"
     ],
     "ios": {
+      "buildNumber": "1.0.3",
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "backgroundColor": "#e0cffc"
+      },
+      "package": "com.utkarshtiwari.chatapp123456789"
     },
     "web": {
       "favicon": "./assets/favicon.png"

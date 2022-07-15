@@ -1,9 +1,10 @@
 import { useContext, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import variables from '../Constants/envVariables';
 import GlobalStyles from '../Constants/style/GlobalStyles';
 import { AuthContext } from '../context/AuthContext';
 import { useHttpClient } from '../hooks/HttpHook';
+import ActivityIndicatorComponent from './ActivityIndicatorComponent';
 import Button from './Button';
 import ErrorMessage from './ErrorMessage';
 import Input from './Input';
@@ -68,7 +69,6 @@ const AuthForm = () => {
                 auth.login(res.token, res.userId);
             })
             .catch(err => {
-                console.log(err);
             })
     }
 
@@ -76,9 +76,7 @@ const AuthForm = () => {
         <>
             {
                 isLoading ? (
-                    <ActivityIndicator
-                        size="large"
-                        color={GlobalStyles.colors.primary500} />
+                    <ActivityIndicatorComponent />
                 ) : (
                     <>
                         <View style={styles.headingContainer}>
@@ -123,7 +121,7 @@ const AuthForm = () => {
                             )}
 
                             <Button
-                                color={GlobalStyles.colors.primary700}
+                                color={GlobalStyles.colors.primary500}
                                 textColor='white'
                                 title={isLoginMode ? 'Login' : 'Signup'}
                                 onPress={submitHandler} />
@@ -156,7 +154,7 @@ const styles = StyleSheet.create({
 
     },
     heading: {
-        color: GlobalStyles.colors.primary700,
+        color: GlobalStyles.colors.primary500,
         textAlign: 'center',
         fontSize: 24
     },
@@ -166,6 +164,6 @@ const styles = StyleSheet.create({
     },
     textHighlight: {
         fontWeight: 'bold',
-        color: GlobalStyles.colors.primary700
+        color: GlobalStyles.colors.primary500
     }
 })

@@ -1,48 +1,23 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
-import variables from '../Constants/envVariables';
-import { AuthContext } from '../context/AuthContext';
-import { useHttpClient } from '../hooks/HttpHook';
 import SendButton from './SendButton';
 
-const ChatInput = ({ userId }) => {
-    const auth = useContext(AuthContext);
-
+const ChatInput = ({ onMessageSend }) => {
     const [textMessage, setTextMessage] = useState('');
-
-    const { sendRequest, isLoading } = useHttpClient();
-
-    const sendMessage = async () => {
-        return sendRequest(
-            `${variables.backendHost}/user/send-message`,
-            'POST',
-            JSON.stringify({
-                text: textMessage,
-                to: userId
-            },
-            ),
-            {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + auth.token
-            }
-        )
-            .then(res => {
-                if (res.message === "sent")
-                    console.log('emit here...');
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    }
-
     return (
         <View style={styles.inputContainer}>
             <TextInput
                 style={styles.textInput}
                 placeholder='Type your message...'
-                onChangeText={(message) => setTextMessage(message)} />
+                onChangeText={(message) => setTextMessage(message)}
+                value={textMessage} />
             <SendButton
-                onPress={sendMessage} />
+                onPress={() => {
+                    return onMessageSend(textMessage)
+                        .then(() => {
+                            setTextMessage('');
+                        })
+                }} />
         </View>
     );
 };

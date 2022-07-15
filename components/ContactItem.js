@@ -7,30 +7,25 @@ const ContactItem = ({ _id, name }) => {
     const navigation = useNavigation();
 
     return (
-        <View style={styles.chatMessageOuterContainer}>
-            <Pressable
-                style={styles.chatMessageInnerContainer}
-                android_ripple={{ color: GlobalStyles.colors.primary400 }}
-                onPress={() => navigation.navigate('chatScreen', { userId: _id, userName: name })}
-            >
-                <View style={styles.imageContainer}>
-                    <AntDesign name="user" size={24} color={GlobalStyles.colors.primary500} />
-                </View>
-                <View style={styles.userNameContainer}>
-                    <Text style={styles.userName}>{name}</Text>
-                </View>
-            </Pressable>
-        </View>
+        <Pressable
+            style={styles.chatMessageContainer}
+            android_ripple={{ color: GlobalStyles.colors.primary400 }}
+            onPress={() => navigation.navigate('chatScreen', { userId: _id, userName: name })}
+        >
+            <View style={styles.imageContainer}>
+                <AntDesign name="user" size={24} color={GlobalStyles.colors.primary500} />
+            </View>
+            <View style={styles.userNameContainer}>
+                <Text style={styles.userName}>{name}</Text>
+            </View>
+        </Pressable>
     );
 };
 
 export default ContactItem;
 
 const styles = StyleSheet.create({
-    chatMessageOuterContainer: {
-        backgroundColor: GlobalStyles.colors.primary100
-    },
-    chatMessageInnerContainer: {
+    chatMessageContainer: {
         flexDirection: 'row',
         padding: 10
     },
