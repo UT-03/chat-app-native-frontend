@@ -3,14 +3,22 @@ import { AntDesign } from '@expo/vector-icons';
 import { StyleSheet } from 'react-native';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import SocketContext from '../context/SocketContext';
 
 const HomeScreenHeader = () => {
     const auth = useContext(AuthContext);
 
+    const { socket } = useContext(SocketContext);
+
     return (
         <View style={styles.container}>
             <Pressable
-                onPress={() => auth.logout()}
+                onPress={() => {
+                    socket.emit("user-inactive", {
+                        userId: auth.userId
+                    })
+                    auth.logout();
+                }}
                 style={({ pressed }) => [styles.iconContainer, pressed && styles.pressed]}>
                 <AntDesign
                     name="poweroff"
